@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PrefabSpawner : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] _generators;
     [SerializeField] private GameObject _prefab;
