@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
         _currentHealth -= damage;
         DamageTaked?.Invoke();
 
-        if (_maxHealth < 0)
+        if (_currentHealth < 0)
         {
             Destroy(gameObject);
         }

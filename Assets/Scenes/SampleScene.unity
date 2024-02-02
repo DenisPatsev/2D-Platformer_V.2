@@ -3841,7 +3841,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 13
+  _vampireEffect: 0.1
+  _distanceRatio: 3
   _distanceChecker: {fileID: 1709899794}
+  _player: {fileID: 705395214}
 --- !u!114 &705395219
 MonoBehaviour:
   m_ObjectHideFlags: 0
