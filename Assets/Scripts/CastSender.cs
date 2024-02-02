@@ -8,15 +8,16 @@ public class CastSender : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D _enemyRigidbody;
     [SerializeField] private ContactFilter2D _filter;
-    [SerializeField] private UnityEvent _isFound;
-    [SerializeField] private UnityEvent _isNotFound;
 
-    private RaycastHit2D[] _rightCastResults = new RaycastHit2D[5];
-    private RaycastHit2D[] _leftCastResults = new RaycastHit2D[5];
+    private RaycastHit2D[] _rightCastResults = new RaycastHit2D[1];
+    private RaycastHit2D[] _leftCastResults = new RaycastHit2D[1];
 
     private SpriteRenderer _renderer;
 
     private float _castDistance;
+
+    public event UnityAction PlayerIsFound;
+    public event UnityAction PlayerIsNotFound;
 
     private void Awake()
     {
@@ -25,7 +26,7 @@ public class CastSender : MonoBehaviour
 
     private void Start()
     {
-        _castDistance = 8;
+        _castDistance = 10;
     }
 
     private void Update()
@@ -38,13 +39,13 @@ public class CastSender : MonoBehaviour
     {
         var collisionCount = _enemyRigidbody.Cast(direction, _filter, results, _castDistance);
 
-        if (collisionCount > 0 && results != null)
+        if (collisionCount > 0)
         {
             for (int i = 0; i < results.Length; i++)
             {
-                if (results[i].collider && results[i].collider.TryGetComponent(out Player player))
+                if (results[i] == true && results[i].collider.TryGetComponent(out Player player))
                 {
-                    _isFound?.Invoke();
+                    PlayerIsFound?.Invoke();
                     float distance = results[i].transform.position.x - transform.position.x;
 
                     if (distance < 0)
@@ -60,13 +61,9 @@ public class CastSender : MonoBehaviour
                 }
                 else
                 {
-                    _isNotFound?.Invoke();
+                    PlayerIsNotFound?.Invoke();
                 }
             }
-        }
-        else
-        {
-            return;
         }
     }
 }

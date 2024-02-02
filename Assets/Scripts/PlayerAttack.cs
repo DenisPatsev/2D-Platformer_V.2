@@ -7,16 +7,15 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    private const string Attack = "attack";
+
     [SerializeField] private float _damage;
     [SerializeField] private Transform _distanceChecker;
-
-    private const string Attack = "attack";
 
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _body;
 
-    private int _directionsNumber;
     private float _distance;
 
     private void Awake()
@@ -28,7 +27,6 @@ public class PlayerAttack : MonoBehaviour
 
     private void Start()
     {
-        _directionsNumber = 2;
         _distance = 1.5f;
     }
 

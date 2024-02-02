@@ -6,9 +6,10 @@ using UnityEngine;
 
 public class EnemyMotion : MonoBehaviour
 {
-    [SerializeField] private float _speed;
-
     private const string IsWalk = "isWalk";
+
+    [SerializeField] private CastSender _sender;
+    [SerializeField] private float _speed;
 
     private SpriteRenderer _spriteRenderer;
     private Animator _enemyAnimator;
@@ -16,34 +17,56 @@ public class EnemyMotion : MonoBehaviour
     private int _collisionCount;
     private int _countDivider;
 
-    private bool _isWorking;
+    private bool _isPatrolling;
 
-    private void Start()
+    private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _enemyAnimator = GetComponent<Animator>();
+    }
 
+    private void Start()
+    {
         _collisionCount = 0;
         _countDivider = 2;
-        _isWorking = true;
+        _isPatrolling = true;
 
         _enemyAnimator.SetBool(IsWalk, true);
-
-        StartCoroutine(Patroling());
-    }
-    public void StartPatroling()
-    {
-        StartCoroutine(Patroling());
     }
 
-    public void StopPatroling()
+    private void Update()
     {
-        StopCoroutine(Patroling());
+        if (_isPatrolling == true) 
+        {
+            transform.Translate(_speed * Time.deltaTime, 0, 0);
+        }
+    }
+
+    private void OnEnable()
+    {
+        _sender.PlayerIsFound += StopPatroling;
+        _sender.PlayerIsNotFound += StartPatroling;
+    }
+
+    private void OnDisable()
+    {
+        _sender.PlayerIsFound -= StopPatroling;
+        _sender.PlayerIsNotFound -= StartPatroling;
+    }
+
+    private void StartPatroling()
+    {
+        _isPatrolling = true;
+    }
+
+    private void StopPatroling()
+    {
+        _isPatrolling = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<PathPoint>(out PathPoint pathPoint))
+        if (collision.TryGetComponent(out PathPoint pathPoint))
         {
             _spriteRenderer.flipX = true;
             _collisionCount++;
@@ -53,15 +76,6 @@ public class EnemyMotion : MonoBehaviour
             {
                 _spriteRenderer.flipX = false;
             }
-        }
-    }
-
-    private IEnumerator Patroling()
-    {
-        while (_isWorking)
-        {
-            transform.Translate(_speed * Time.deltaTime, 0, 0);
-            yield return null;
         }
     }
 }

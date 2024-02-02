@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 160502485969362383}
   - component: {fileID: 5194287509352008590}
   - component: {fileID: 8323853681172169800}
+  - component: {fileID: 8824969610937044794}
   m_Layer: 8
-  m_Name: HealthbarCanvas
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +61,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!114 &5194287509352008590
 MonoBehaviour:
@@ -102,6 +103,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8824969610937044794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2186050353857672628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d55f8a4ce189a74796f3711c40a6ca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bar: {fileID: 8596278949165177171}
+  _player: {fileID: 0}
+  _changeValueRate: 30
 --- !u!1 &2516613014071415131
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,8 +154,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -465.896, y: -260.704}
-  m_SizeDelta: {x: 99.501, y: 17.1}
+  m_AnchoredPosition: {x: -465.84018, y: -259.15048}
+  m_SizeDelta: {x: 180, y: 28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8596278949165177171
 MonoBehaviour:
@@ -337,7 +353,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.5589981, y: 0}
+  m_AnchoredPosition: {x: -0.5589905, y: 0}
   m_SizeDelta: {x: 8.881, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6822743371415395864

@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    [SerializeField] private float _damage;
-
     private const string Attack = "attack";
+
+    [SerializeField] private float _damage;
 
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
@@ -26,7 +26,7 @@ public class EnemyAttack : MonoBehaviour
         _distance = 2;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent(out Player player))
         {

@@ -1,66 +1,69 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(Animator))]
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _coinTrigger;
-    [SerializeField] private Slider _slider;
-
     private const string TakeHit = "takeDamage";
 
     private Animator _animator;
 
     private float _maximalHealth;
     private float _currentHealth;
-    private float _healingEffect;
-    private float _startHealth;
+    private float _money;
 
-    private void Start()
+    public event UnityAction DamageTaked;
+    public event UnityAction TreatmentAdded;
+    public event UnityAction CoinAdded;
+
+    public float CurrentHealth => _currentHealth;
+    public float MaximalHealth => _maximalHealth;
+    public float Money => _money;
+
+    private void Awake()
     {
         _animator = GetComponent<Animator>();
         _maximalHealth = 100;
-        _slider.maxValue = _maximalHealth;
-        _slider.value = _maximalHealth;
         _currentHealth = _maximalHealth;
-        _healingEffect = 15;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void Dead()
     {
-        if (collision.gameObject.TryGetComponent(out Coin coin))
-        {
-            _coinTrigger.Invoke();
-            Destroy(collision.gameObject);
-        }
-        else if (collision.gameObject.TryGetComponent(out Potion potion))
-        {
-            _startHealth = _currentHealth;
-            _currentHealth += _healingEffect;
-            _slider.value = Mathf.MoveTowards(_startHealth, _currentHealth, Time.time);
-            Destroy(collision.gameObject);
-            CheckHealth();
-        }
+        Destroy(gameObject);
     }
 
     public void TakeDamage(float damage)
     {
-        _startHealth = _currentHealth;
         _animator.SetTrigger(TakeHit);
         _currentHealth -= damage;
-        _slider.value = Mathf.MoveTowards(_startHealth, _currentHealth, Time.time);
-        CheckHealth();
+
+        DamageTaked?.Invoke();
+        RefreshHealthData();
     }
 
-    private void CheckHealth()
+    public void GetTreatment(float healingEffect)
+    {
+        _currentHealth += healingEffect;
+
+        TreatmentAdded?.Invoke();
+    }
+
+    public void AddMoney()
+    {
+        _money++;
+
+        CoinAdded?.Invoke();
+    }
+
+    public void RefreshHealthData()
     {
         if (_currentHealth < 0)
         {
             _currentHealth = 0;
+            Dead();
         }
-        else if (_currentHealth > _maximalHealth) 
+        else if (_currentHealth > _maximalHealth)
         {
             _currentHealth = _maximalHealth;
         }
